@@ -1,0 +1,135 @@
+import { QueryClient } from "@tanstack/react-query";
+import type { Inputs } from "../components/AuthForm";
+
+const queryClient = new QueryClient();
+
+export default queryClient;
+
+export async function createUser(data: Inputs) {
+  const res = await fetch("http://localhost:3000/auth/signup", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (res.status === 417) {
+    const error = await res.json();
+    throw error;
+  }
+  if (res.status === 500) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 201) {
+    const { message } = await res.json();
+    console.log(message);
+    return message;
+  }
+}
+
+export async function login(data: { email: string; password: string }) {
+  const res = await fetch("http://localhost:3000/auth/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 417) {
+    const error = await res.json();
+    throw error;
+  }
+  if (res.status === 500 || res.status === 401) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+
+    return resData;
+  }
+}
+
+export async function resetPassword(data: { email: string }) {
+  const res = await fetch("http://localhost:3000/auth/resetpw", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 404) {
+    const error = await res.json();
+    throw error;
+  }
+  if (res.status === 500) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const { message } = await res.json();
+
+    return message;
+  }
+}
+
+export async function getResetPasswordPermission(resetToken: string) {
+  const res = await fetch("http://localhost:3000/auth/reset/" + resetToken);
+  if (res.status === 500 || res.status === 401) {
+    const { message } = await res.json();
+    throw new Error(message);
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+    return resData;
+  }
+}
+
+export async function newPassword(data: {
+  password: string;
+  userId: string;
+  token: string;
+}) {
+  console.log(data);
+  const res = await fetch("http://localhost:3000/auth/newpw", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+  if (res.status === 417) {
+    const error = await res.json();
+    throw error;
+  }
+  if (res.status === 500 || res.status === 401) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+    console.log(resData);
+
+    return resData;
+  }
+}
+
+export async function fetchBooks() {
+  const res = await fetch("http://localhost:3000/books");
+  if (res.status === 500) {
+    const { message } = await res.json();
+    throw new Error(message);
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+    console.log(resData);
+
+    return resData.books;
+  }
+}
