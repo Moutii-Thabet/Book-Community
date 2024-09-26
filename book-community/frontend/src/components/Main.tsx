@@ -9,7 +9,7 @@ export default function Main({ children, className }: MainProps) {
   return (
     <main
       className={twMerge(
-        " bg-gradient-to-b from-orange-200 to-orange-400 text-black pb-10 ",
+        "h-screen bg-gradient-to-b from-orange-200 to-orange-400 text-black pb-10 ",
         className
       )}
     >

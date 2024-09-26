@@ -32,7 +32,7 @@ export function checkAuthLoader() {
     return redirect("/auth/login");
   }
 
-  return null;
+  return token;
 }
 
 export function authLoader() {

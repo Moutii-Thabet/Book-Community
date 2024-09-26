@@ -1,6 +1,6 @@
 import Main from "../components/Main";
 import BookCard from "../components/BookCard";
-
+import Books from "../components/Books";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "../util/http";
 
@@ -54,25 +54,7 @@ export default function CommunityPage() {
   }
 
   if (data && data.length > 0) {
-    content = (
-      <div className="w-1/2 h-fit mx-auto pt-20">
-        <ul className="grid grid-cols-2 gap-8">
-          {data.map((book) => {
-            return (
-              <BookCard
-                key={book._id}
-                title={book.title}
-                creator={book.creator.name}
-                date={book.createdAt}
-                rating={book.rating}
-                imageUrl={book.imageUrl}
-                description={book.description}
-              />
-            );
-          })}
-        </ul>
-      </div>
-    );
+    content = <Books books={data} />
   }
 
   return (

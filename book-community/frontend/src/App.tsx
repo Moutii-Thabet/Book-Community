@@ -16,6 +16,7 @@ import NewPasswordPage, {
   loader as newPasswordLoader,
 } from "./pages/NewPassword.tsx";
 import CommunityPage from "./pages/Community.tsx";
+import CollectionPage from "./pages/Collection.tsx";
 
 const router = createBrowserRouter([
   {
@@ -27,6 +28,11 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <CommunityPage />,
+      },
+      {
+        path:"collection",
+        element:<CollectionPage/>,
+        loader:checkAuthLoader
       },
       {
         path: "/auth",

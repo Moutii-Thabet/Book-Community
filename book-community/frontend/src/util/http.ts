@@ -133,3 +133,24 @@ export async function fetchBooks() {
     return resData.books;
   }
 }
+
+export async function fetchUserBooks(signal:AbortSignal, token:string) {
+  const res = await fetch("http://localhost:3000/admin/books", {
+    headers:{
+      Authorization:"Bearer "+token
+    },
+    signal
+  })
+
+  if (res.status === 500) {
+    const { message } = await res.json();
+    throw new Error(message);
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+    console.log(resData);
+
+    return resData.books;
+  }
+
+}

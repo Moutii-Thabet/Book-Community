@@ -47,7 +47,7 @@ export default function LoginPage() {
       console.log(data);
       const { token } = data;
       localStorage.setItem("token", token);
-      const expiration = Date.now() + 3600;
+      const expiration = Date.now() + 3600*1000
       localStorage.setItem("expiration", expiration.toString());
       navigate("/");
     },
