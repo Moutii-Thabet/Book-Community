@@ -12,8 +12,8 @@ import mailgunTransport from "nodemailer-mailgun-transport";
 
 const auth = {
   auth: {
-    api_key: "a0e8ec10e6732e80bb72cd2abe0d5461-777a617d-04034128",
-    domain: "sandboxc461697a709f4c26a9eb07e2ebb9fc75.mailgun.org",
+    api_key: process.env.MAILGUN_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
   },
 };
 
