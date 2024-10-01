@@ -60,16 +60,13 @@ app.use((error, req, res, next) => {
   res.status(statusCode).json({ message, errorData: data });
 });
 
-  try {
-  await mongoose.connect(process.env.MONGO_URL);
+try {
+  await mongoose.connect(
+    "mongodb+srv://Moutii:Thabete321@cluster0.7lhlzac.mongodb.net/books?retryWrites=true&w=majority&appName=Cluster0"
+  );
   app.listen(3000, () => {
     console.log("listening on port 3000");
   });
 } catch (error) {
   console.log("error");
 }
-
-
-
-
-
