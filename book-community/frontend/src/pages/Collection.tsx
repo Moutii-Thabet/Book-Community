@@ -1,9 +1,11 @@
+import { useRef } from "react";
 import Main from "../components/Main";
 import Books from "../components/Books";
 import { useLoaderData } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUserBooks } from "../util/http";
 import Button from "../components/Button";
+import BookModal from "../components/BookModal";
 
 type User = {
   name: string;
@@ -21,13 +23,23 @@ type Book = {
 
 type Data = Book[] | [];
 
+type DialogHandle = {
+  open: () => void;
+};
+
 export default function CollectionPage() {
+  const modalRef = useRef<DialogHandle>(null)
   const token = useLoaderData() as string;
   console.log(token);
   const { data, isPending, isError, error } = useQuery<Data>({
     queryKey: ["event"],
     queryFn: ({ signal }) => fetchUserBooks(signal, token),
   });
+
+  function handleClick() {
+    modalRef.current?.open()
+  }
+
   let content;
 
   if (isPending) {
@@ -50,10 +62,10 @@ export default function CollectionPage() {
     console.log(data);
     content = (
       <div className="w-fit mx-auto">
-        <p className="py-[20rem] pr-6 text-3xl">
-          No books available at the moment
+        <p className="py-[14rem] w-fit mx-auto pr-6 text-3xl text-center">
+          <p>No books available at the moment</p>
+          <Button text="Add a book" className="mt-4" onClick={handleClick}/>
         </p>
-        <Button text="Add a book" />
       </div>
     );
   }
@@ -65,6 +77,7 @@ export default function CollectionPage() {
 
   return (
     <>
+      <BookModal ref={modalRef}/>
       <Main>{content}</Main>
     </>
   );
