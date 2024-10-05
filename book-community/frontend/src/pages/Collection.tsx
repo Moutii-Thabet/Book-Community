@@ -25,10 +25,11 @@ type Data = Book[] | [];
 
 type DialogHandle = {
   open: () => void;
+  close: () => void;
 };
 
 export default function CollectionPage() {
-  const modalRef = useRef<DialogHandle>(null)
+  const modalRef = useRef<DialogHandle>(null);
   const token = useLoaderData() as string;
   console.log(token);
   const { data, isPending, isError, error } = useQuery<Data>({
@@ -37,7 +38,12 @@ export default function CollectionPage() {
   });
 
   function handleClick() {
-    modalRef.current?.open()
+    modalRef.current?.open();
+  }
+
+  function handleClose() {
+    console.log("closing modal...");
+    modalRef.current?.close();
   }
 
   let content;
@@ -64,7 +70,7 @@ export default function CollectionPage() {
       <div className="w-fit mx-auto">
         <p className="py-[14rem] w-fit mx-auto pr-6 text-3xl text-center">
           <p>No books available at the moment</p>
-          <Button text="Add a book" className="mt-4" onClick={handleClick}/>
+          <Button text="Add a book" className="mt-4" onClick={handleClick} />
         </p>
       </div>
     );
@@ -77,7 +83,7 @@ export default function CollectionPage() {
 
   return (
     <>
-      <BookModal ref={modalRef}/>
+      <BookModal ref={modalRef} onClose={handleClose} />
       <Main>{content}</Main>
     </>
   );

@@ -1,9 +1,25 @@
-import { NavLink, useRouteLoaderData, Form } from "react-router-dom";
+import { useEffect } from "react";
+import {
+  NavLink,
+  useRouteLoaderData,
+  Form,
+  useRevalidator,
+  useSearchParams,
+} from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 type Token = string | null;
 
 export default function MainNavigation() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const revalidator = useRevalidator();
   const token = useRouteLoaderData("root") as Token;
+  useEffect(() => {
+    if (searchParams.get("loggedin")) {
+      revalidator.revalidate();
+    }
+    setSearchParams({});
+  }, [searchParams, setSearchParams, revalidator]);
+
   const ulClass = "flex my-auto gap-8";
   const navClass = "text-xl text-orange-800 hover:text-red-600";
   return (

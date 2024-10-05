@@ -44,12 +44,12 @@ export default function LoginPage() {
   const { mutateAsync } = useMutation({
     mutationFn: login,
     onSuccess(data) {
-      console.log(data);
       const { token } = data;
       localStorage.setItem("token", token);
-      const expiration = Date.now() + 3600*1000
+      const expiration = Date.now() + 3600 * 1000;
       localStorage.setItem("expiration", expiration.toString());
-      navigate("/");
+
+      navigate("/?loggedin=true");
     },
     onError: (error: CustomError) => {
       if (error.errorData) {

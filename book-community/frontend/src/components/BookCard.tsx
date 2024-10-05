@@ -28,8 +28,8 @@ export default function BookCard({
     ratingColor = "text-green-700";
   }
   return (
-    <div className="flex rounded-md  flex-col gap-4 h-[45rem] md:h-[30rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800">
-      <hgroup className="text-xl md:text-md flex flex-col gap-4 md:text-sm">
+    <div className="flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800">
+      <hgroup className="text-xl  flex flex-col gap-4">
         <div className="flex justify-between px-12">
           <p>
             Posted by: <span className="font-bold underline">{creator}</span>
@@ -42,11 +42,11 @@ export default function BookCard({
           <span className={twMerge("font-bold", ratingColor)}>{rating}</span> by
           the post author
         </p>
-        <h1 className="text-2xl md:text-xl font-bold">{title}</h1>
+        <h1 className="text-2xl  font-bold">{title}</h1>
       </hgroup>
       <div>
         <img
-          className="h-[15rem] w-max mx-auto"
+          className=" w-max mx-auto"
           src={`http://localhost:3000/${imageUrl}`}
           alt={`book cover of: ${title}`}
         />

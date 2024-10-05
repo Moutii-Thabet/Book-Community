@@ -2,9 +2,7 @@ import { redirect } from "react-router-dom";
 
 export function getTokenDuration() {
   const expiration: string | null = localStorage.getItem("expiration");
-  console.log(expiration);
   const now = Date.now();
-  console.log(now);
   const remaining = +expiration! - now;
   return remaining;
 }
@@ -23,6 +21,7 @@ export function getAuthToken() {
 }
 
 export function loader() {
+  console.log("getting token...");
   return getAuthToken();
 }
 

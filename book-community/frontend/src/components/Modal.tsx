@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 
 type DialogHandle = {
   open: () => void;
+  close: () => void;
 };
 
 type ModalProps = {
@@ -16,6 +17,7 @@ export default forwardRef<DialogHandle, ModalProps>(function Modal(
   const dialogRef = useRef<HTMLDialogElement>(null);
   useImperativeHandle(ref, () => ({
     open: () => dialogRef.current?.showModal(),
+    close: () => dialogRef.current?.close(),
   }));
   return createPortal(
     <dialog ref={dialogRef}>{children}</dialog>,
