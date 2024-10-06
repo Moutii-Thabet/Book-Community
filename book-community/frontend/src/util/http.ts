@@ -95,7 +95,6 @@ export async function newPassword(data: {
   userId: string;
   token: string;
 }) {
-  console.log(data);
   const res = await fetch("http://localhost:3000/auth/newpw", {
     method: "POST",
     headers: {
@@ -114,7 +113,7 @@ export async function newPassword(data: {
   }
   if (res.status === 200) {
     const resData = await res.json();
-    console.log(resData);
+    console.log("data", resData);
 
     return resData;
   }

@@ -78,8 +78,6 @@ export default function NewPasswordPage() {
       userId: data.userId,
       token: data.resetToken,
     });
-    const message = data.message.replace(" ", "+");
-    navigate("/auth/login?message=" + message);
   }
   return (
     <>
@@ -93,9 +91,7 @@ export default function NewPasswordPage() {
             className="bg-orange-300 text-xl flex flex-col gap-6 px-12 py-16 rounded-lg border-2 border-solid border-slate-950 shadow-lg shadow-gray-800"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h2 className="w-fit mx-auto font-bold">
-              Enter you Email to reset password
-            </h2>
+            <h2 className="w-fit mx-auto font-bold">Enter your new password</h2>
             <Input
               {...register("password", {
                 required: "The Password field is required.",
@@ -132,11 +128,14 @@ export default function NewPasswordPage() {
 
 export async function loader({ params }: LoaderFunctionArgs) {
   try {
-    const data = await getResetPasswordPermission(params.resetToken!);
+    const data = await getResetPasswordPermission(
+      encodeURIComponent(params.resetToken!)
+    );
 
     return data;
   } catch (error) {
     const { message } = error as Error;
+    console.log(message);
 
     return redirect("/auth/login?message=" + message.replace(" ", "+"));
   }

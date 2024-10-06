@@ -28,15 +28,7 @@ export default function LoginPage() {
   useEffect(() => {
     if (searchParams.get("message")) {
       const message = searchParams.get("message");
-      toast((t) => {
-        return (
-          <span>
-            <p>{message}</p>
-
-            <button onClick={() => toast.dismiss(t.id)}>Dismiss</button>
-          </span>
-        );
-      });
+      toast.success(message, { id: "message" });
       setSearchParams({});
     }
   }, [searchParams, setSearchParams]);

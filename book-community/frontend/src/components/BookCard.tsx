@@ -20,13 +20,13 @@ export default function BookCard({
   minimize,
 }: BookCardProps) {
   let ratingColor;
-  if (rating >= 0 && rating <= 4) {
+  if (rating >= 0 && rating <= 3) {
     ratingColor = "text-red-700";
   }
-  if (rating > 4 && rating < 8) {
+  if (rating > 4 && rating < 7) {
     ratingColor = "text-yellow-100";
   }
-  if (rating >= 8 && rating < 11) {
+  if (rating >= 7 && rating < 11) {
     ratingColor = "text-green-700";
   }
   return (
@@ -57,7 +57,7 @@ export default function BookCard({
           </p>
         </div>
         <p>
-          Rated:{" "}
+          Rated{" "}
           <span className={twMerge("font-bold", ratingColor)}>{rating}</span>{" "}
           {!minimize ? "by the post author" : ""}
         </p>
