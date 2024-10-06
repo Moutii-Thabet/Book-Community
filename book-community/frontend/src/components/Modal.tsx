@@ -8,10 +8,11 @@ type DialogHandle = {
 
 type ModalProps = {
   children: React.ReactNode;
+  onClose: () => void;
 };
 
 export default forwardRef<DialogHandle, ModalProps>(function Modal(
-  { children },
+  { children, onClose },
   ref
 ) {
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -20,7 +21,13 @@ export default forwardRef<DialogHandle, ModalProps>(function Modal(
     close: () => dialogRef.current?.close(),
   }));
   return createPortal(
-    <dialog ref={dialogRef}>{children}</dialog>,
+    <dialog
+      ref={dialogRef}
+      onClose={onClose}
+      className="bg-orange-300 rounded-lg border-2 border-solid border-slate-950 shadow-lg shadow-gray-800"
+    >
+      {children}
+    </dialog>,
     document.getElementById("modal-root")!
   );
 });

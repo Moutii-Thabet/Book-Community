@@ -12,7 +12,7 @@ type InputProps = {
   className?: string;
   type: string;
   label?: string;
-  id: string;
+  id?: string;
   error?: FieldError | undefined;
 } & ComponentProps<"input">;
 

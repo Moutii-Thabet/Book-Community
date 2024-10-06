@@ -1,42 +1,49 @@
-import { ChangeEvent, useRef, useState } from "react";
+import { ChangeEvent, useRef } from "react";
 
-export default function ImagePicker() {
+type ImagePickerProps = {
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onRemoveImage: () => void;
+  imagePreview: null | string;
+};
+
+export default function ImagePicker({
+  onChange,
+  onRemoveImage,
+  imagePreview,
+}: ImagePickerProps) {
   const imageRef = useRef<HTMLInputElement>(null);
-  const [imagePreview, setImagePreview] = useState<null | string>(null);
 
   function handleClick() {
     imageRef.current?.click();
   }
 
-  function handleChange(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-
-      // When file reading is complete, set the preview URL
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string); // FileReader returns the result as a Data URL
-      };
-
-      reader.readAsDataURL(file); // Read the file as Data URL
-    }
-  }
   return (
     <>
-      <div onClick={handleClick} className="cursor-pointer">
+      <div className="cursor-pointer w-fit mx-auto bg-orange-400/20 px-6 py-6 rounded-lg">
         {!imagePreview && (
-          <p className="w-fit mx-auto p-16 border-dashed border-orange-500 border-4 text-xl">
+          <p
+            onClick={handleClick}
+            className=" p-14 border-dashed border-orange-500 border-4 text-2xl font-bold"
+          >
             Add an image
           </p>
         )}
         {imagePreview && (
-          <img
-            className="w-40 h-40 mx-auto"
-            src={imagePreview}
-            alt="selected image"
-          />
+          <div className="relative">
+            <div
+              onClick={onRemoveImage}
+              className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity"
+            >
+              <p className="text-white text-xl">Click to remove image</p>
+            </div>
+            <img
+              className="w-40 h-40 "
+              src={imagePreview}
+              alt="selected image"
+            />
+          </div>
         )}
-        <input ref={imageRef} type="file" hidden onChange={handleChange} />
+        <input ref={imageRef} type="file" hidden onChange={onChange} />
       </div>
     </>
   );

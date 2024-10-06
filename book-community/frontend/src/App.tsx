@@ -30,9 +30,10 @@ const router = createBrowserRouter([
         element: <CommunityPage />,
       },
       {
-        path:"collection",
-        element:<CollectionPage/>,
-        loader:checkAuthLoader
+        path: "collection",
+        element: <CollectionPage />,
+        id: "collection",
+        loader: checkAuthLoader,
       },
       {
         path: "/auth",

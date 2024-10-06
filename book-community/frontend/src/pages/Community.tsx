@@ -1,5 +1,4 @@
 import Main from "../components/Main";
-import BookCard from "../components/BookCard";
 import Books from "../components/Books";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "../util/http";
@@ -54,7 +53,7 @@ export default function CommunityPage() {
   }
 
   if (data && data.length > 0) {
-    content = <Books books={data} />
+    content = <Books books={data} minimize={false} />;
   }
 
   return (

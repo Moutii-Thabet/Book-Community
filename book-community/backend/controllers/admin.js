@@ -7,10 +7,25 @@ import { throwError } from "../util/error.js";
 
 export async function getBooks(req, res, next) {
   const userId = req.userId;
-
+  console.log(userId);
   try {
-    const books = await Book.find({ _id: userId });
-    res.status(200).json({ message: "Fetched your books successfully", books });
+    const books = await Book.find({ creator: userId }).populate("creator");
+    const updatedBooks = books.map((book) => {
+      return {
+        ...book._doc,
+        _id: book._id.toString(),
+        createdAt: book.createdAt.toDateString(),
+        creator: {
+          name: book.creator.name,
+        },
+      };
+    });
+    res
+      .status(200)
+      .json({
+        message: "Fetched your books successfully",
+        books: updatedBooks,
+      });
   } catch (error) {
     if (!error.status) {
       error.status = 500;
@@ -34,7 +49,7 @@ export async function postBook(req, res, next) {
     }
     const title = req.body.title;
     const description = req.body.description;
-    const rating = req.body.rating || 99;
+    const rating = Number(req.body.rating) || 99;
 
     const book = new Book({
       title,

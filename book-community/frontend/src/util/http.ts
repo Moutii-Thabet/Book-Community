@@ -134,13 +134,13 @@ export async function fetchBooks() {
   }
 }
 
-export async function fetchUserBooks(signal:AbortSignal, token:string) {
+export async function fetchUserBooks(signal: AbortSignal, token: string) {
   const res = await fetch("http://localhost:3000/admin/books", {
-    headers:{
-      Authorization:"Bearer "+token
+    headers: {
+      Authorization: "Bearer " + token,
     },
-    signal
-  })
+    signal,
+  });
 
   if (res.status === 500) {
     const { message } = await res.json();
@@ -152,5 +152,30 @@ export async function fetchUserBooks(signal:AbortSignal, token:string) {
 
     return resData.books;
   }
+}
 
+export async function addBook(args: { data: FormData; token: string }) {
+  console.log(args.token);
+  const res = await fetch("http://localhost:3000/admin/book", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + args.token,
+    },
+    body: args.data,
+  });
+
+  if (res.status === 417) {
+    const error = await res.json();
+    throw error;
+  }
+  if (res.status === 500 || res.status === 415) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+
+    return resData;
+  }
 }

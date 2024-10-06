@@ -20,7 +20,7 @@ export default function RootPage() {
 
     const remainingTime = getTokenDuration();
     setTimeout(() => {
-      submit(null);
+      submit(null, { method: "POST", action: "/auth/logout" });
     }, remainingTime);
   }, [token, submit]);
   return (

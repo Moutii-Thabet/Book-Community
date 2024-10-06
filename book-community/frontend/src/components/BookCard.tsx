@@ -2,6 +2,7 @@ import { twMerge } from "tailwind-merge";
 
 type BookCardProps = {
   creator: string;
+  minimize: boolean;
   date: string;
   rating: number;
   title: string;
@@ -16,6 +17,7 @@ export default function BookCard({
   title,
   imageUrl,
   description,
+  minimize,
 }: BookCardProps) {
   let ratingColor;
   if (rating >= 0 && rating <= 4) {
@@ -28,31 +30,55 @@ export default function BookCard({
     ratingColor = "text-green-700";
   }
   return (
-    <div className="flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800">
-      <hgroup className="text-xl  flex flex-col gap-4">
+    <div
+      className={twMerge(
+        "flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800",
+        minimize && "h-80 py-5 px-3 w-fit"
+      )}
+    >
+      <hgroup
+        className={twMerge(
+          "text-xl  flex flex-col gap-4",
+          minimize && "text-md text-center"
+        )}
+      >
         <div className="flex justify-between px-12">
-          <p>
-            Posted by: <span className="font-bold underline">{creator}</span>
+          {!minimize && (
+            <>
+              <p>
+                Posted by:{" "}
+                <span className="font-bold underline">{creator}</span>
+              </p>
+              <p className="font-bold">·</p>
+            </>
+          )}
+          <p className={twMerge("font-bold", minimize && "w-fit mx-auto")}>
+            @{date}
           </p>
-          <p className="font-bold">·</p>
-          <p className="font-bold">@{date}</p>
         </div>
         <p>
           Rated:{" "}
-          <span className={twMerge("font-bold", ratingColor)}>{rating}</span> by
-          the post author
+          <span className={twMerge("font-bold", ratingColor)}>{rating}</span>{" "}
+          {!minimize ? "by the post author" : ""}
         </p>
-        <h1 className="text-2xl  font-bold">{title}</h1>
+        <h1 className={twMerge("text-2xl  font-bold", minimize && "text-xl")}>
+          {title}
+        </h1>
       </hgroup>
       <div>
         <img
-          className=" w-max mx-auto"
+          className={twMerge(
+            "w-max h-[25rem]  mx-auto",
+            minimize && "h-32 w-fit"
+          )}
           src={`http://localhost:3000/${imageUrl}`}
           alt={`book cover of: ${title}`}
         />
       </div>
       <p>
-        <span className="text-xl">{description}</span>
+        <span className={twMerge("text-xl", minimize && "text-md")}>
+          {description}
+        </span>
       </p>
     </div>
   );
