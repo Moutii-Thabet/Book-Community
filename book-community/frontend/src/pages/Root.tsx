@@ -7,7 +7,6 @@ import { getTokenDuration } from "../util/auth";
 
 export default function RootPage() {
   const token = useLoaderData();
-  console.log(token);
   const submit = useSubmit();
   useEffect(() => {
     if (!token) {

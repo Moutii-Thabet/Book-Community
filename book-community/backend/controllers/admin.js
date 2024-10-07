@@ -20,12 +20,10 @@ export async function getBooks(req, res, next) {
         },
       };
     });
-    res
-      .status(200)
-      .json({
-        message: "Fetched your books successfully",
-        books: updatedBooks,
-      });
+    res.status(200).json({
+      message: "Fetched your books successfully",
+      books: updatedBooks,
+    });
   } catch (error) {
     if (!error.status) {
       error.status = 500;

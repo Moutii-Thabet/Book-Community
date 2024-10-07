@@ -21,9 +21,15 @@ type BooksProps = {
   books: Data;
   minimize: boolean;
   onAddBook?: () => void;
+  onGetDetails: (id: string) => void;
 };
 
-export default function Books({ books, minimize, onAddBook }: BooksProps) {
+export default function Books({
+  books,
+  minimize,
+  onAddBook,
+  onGetDetails,
+}: BooksProps) {
   return (
     <div className="w-1/2 h-fit mx-auto pt-20">
       <ul
@@ -47,12 +53,14 @@ export default function Books({ books, minimize, onAddBook }: BooksProps) {
             <BookCard
               minimize={minimize}
               key={book._id}
+              id={book._id}
               title={book.title}
               creator={book.creator.name}
               date={book.createdAt}
               rating={book.rating}
               imageUrl={book.imageUrl}
               description={book.description}
+              onGetDetails={onGetDetails}
             />
           );
         })}

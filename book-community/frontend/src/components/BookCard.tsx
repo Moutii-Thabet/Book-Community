@@ -6,8 +6,10 @@ type BookCardProps = {
   date: string;
   rating: number;
   title: string;
+  id: string;
   imageUrl: string;
   description: string;
+  onGetDetails: (id: string) => void;
 };
 
 export default function BookCard({
@@ -17,7 +19,9 @@ export default function BookCard({
   title,
   imageUrl,
   description,
+  id,
   minimize,
+  onGetDetails,
 }: BookCardProps) {
   let ratingColor;
   if (rating >= 0 && rating <= 3) {
@@ -32,9 +36,10 @@ export default function BookCard({
   return (
     <div
       className={twMerge(
-        "flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800",
+        "flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800 hover:shadow-white hover:outline hover:outline-white cursor-pointer",
         minimize && "h-80 py-5 px-3 w-fit"
       )}
+      onClick={() => onGetDetails(id)}
     >
       <hgroup
         className={twMerge(

@@ -2,6 +2,7 @@ import { ChangeEvent, useState, forwardRef } from "react";
 import { useRouteLoaderData } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
+import toast, { Toaster } from "react-hot-toast";
 
 import Modal from "./Modal";
 import Button from "./Button";
@@ -25,6 +26,19 @@ type Inputs = {
   rating?: number;
 };
 
+type CustomError = {
+  message: string;
+  errorData:
+    | {
+        type: string;
+        value: string | undefined;
+        msg: string;
+        path: string;
+        location: string;
+      }[]
+    | null;
+};
+
 export default forwardRef<DialogHandle, ModalProps>(function BookModal(
   { onClose },
   ref
@@ -44,6 +58,30 @@ export default forwardRef<DialogHandle, ModalProps>(function BookModal(
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["books", "admin"] });
       onClose();
+    },
+    onError: (error: CustomError) => {
+      if (error.errorData) {
+        toast((t) => {
+          return (
+            <span className="flex flex-col gap-2">
+              {error.errorData!.map((error) => (
+                <p className="text-red-600">{error.msg}</p>
+              ))}
+
+              <button onClick={() => toast.dismiss(t.id)}>Dismiss</button>
+            </span>
+          );
+        });
+      } else {
+        toast((t) => {
+          return (
+            <span>
+              <p className="text-red-600">{error.message}</p>
+              <button onClick={() => toast.dismiss(t.id)}>Dismiss</button>
+            </span>
+          );
+        });
+      }
     },
   });
 
@@ -92,6 +130,10 @@ export default forwardRef<DialogHandle, ModalProps>(function BookModal(
 
   return (
     <Modal onClose={handleCloseModal} ref={ref}>
+      <Toaster
+        position="top-center"
+        toastOptions={{ duration: 5000, className: "mt-20 text-2xl" }}
+      />
       <div className="flex flex-col gap-10  px-20 py-20 text-xl text-black text-center">
         <h1 className="text-4xl font-bold w-fit mx-auto">Add a book</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -155,6 +197,8 @@ export default forwardRef<DialogHandle, ModalProps>(function BookModal(
                     },
                   })}
                   type="number"
+                  min={0}
+                  max={10}
                   placeholder="Rating"
                   error={errors.rating}
                 />
