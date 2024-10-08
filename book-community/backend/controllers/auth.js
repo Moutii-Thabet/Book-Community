@@ -113,7 +113,6 @@ export async function postSendResetPassword(req, res, next) {
 
 export async function getResetPasswordPermission(req, res, next) {
   const resetToken = decodeURIComponent(req.params.resetToken);
-  console.log(resetToken);
   const now = Date.now();
   try {
     const user = await User.findOne({

@@ -1,5 +1,4 @@
 import { forwardRef } from "react";
-import { useSearchParams } from "react-router-dom";
 import Modal from "./Modal";
 
 type DialogHandle = {
@@ -9,14 +8,14 @@ type DialogHandle = {
 
 type DetailsModalProps = {
   onClose: () => void;
+  bookid: string;
 };
 
 export default forwardRef<DialogHandle, DetailsModalProps>(
-  function DetailsModal({ onClose }, ref) {
-    const [searchParams] = useSearchParams();
+  function DetailsModal({ onClose, bookid }, ref) {
     return (
       <Modal onClose={onClose} ref={ref}>
-        <div>{searchParams.get("bookid")}</div>
+        <div>{bookid}</div>
       </Modal>
     );
   }

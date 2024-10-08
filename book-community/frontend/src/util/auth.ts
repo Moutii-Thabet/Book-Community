@@ -21,7 +21,6 @@ export function getAuthToken() {
 }
 
 export function loader() {
-  console.log("getting token...");
   return getAuthToken();
 }
 

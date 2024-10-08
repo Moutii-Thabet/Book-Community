@@ -2,8 +2,7 @@ import Main from "../components/Main";
 import Books from "../components/Books";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBooks } from "../util/http";
-import { useSearchParams } from "react-router-dom";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import DetailsModal from "../components/DetailsModal";
 
@@ -30,20 +29,21 @@ type DialogHandle = {
 
 export default function CommunityPage() {
   const detailsRef = useRef<DialogHandle>(null);
-  const [searchParams, setSearchParams] = useSearchParams({});
+  const [bookid, setBookId] = useState<string>("");
   const { data, isPending, isError, error } = useQuery<Data>({
     queryKey: ["books"],
     queryFn: fetchBooks,
   });
   let content: JSX.Element | undefined;
-  console.log(searchParams);
 
   function handleGetDetails(id: string) {
     detailsRef.current?.open();
-    setSearchParams({ bookid: id });
+    setBookId(id);
   }
 
-  function handleClose() {}
+  function handleClose() {
+    setBookId("");
+  }
 
   if (isPending) {
     content = (
@@ -79,7 +79,7 @@ export default function CommunityPage() {
 
   return (
     <>
-      <DetailsModal ref={detailsRef} onClose={handleClose} />
+      <DetailsModal bookid={bookid} ref={detailsRef} onClose={handleClose} />
       <Main>{content}</Main>
     </>
   );
