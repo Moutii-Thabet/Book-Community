@@ -9,7 +9,7 @@ type BookCardProps = {
   id: string;
   imageUrl: string;
   description: string;
-  onGetDetails: (id: string) => void;
+  onGetDetails?: (id: string) => void;
 };
 
 export default function BookCard({
@@ -39,7 +39,7 @@ export default function BookCard({
         "flex rounded-md  flex-col gap-4 h-[45rem] py-10 px-6 text-center bg-orange-300 shadow-lg shadow-gray-800 hover:shadow-white hover:outline hover:outline-white cursor-pointer",
         minimize && "h-80 py-5 px-3 w-fit"
       )}
-      onClick={() => onGetDetails(id)}
+      onClick={onGetDetails ? () => onGetDetails(id) : () => {}}
     >
       <hgroup
         className={twMerge(

@@ -21,7 +21,7 @@ type BooksProps = {
   books: Data;
   minimize: boolean;
   onAddBook?: () => void;
-  onGetDetails: (id: string) => void;
+  onGetDetails?: (id: string) => void;
 };
 
 export default function Books({

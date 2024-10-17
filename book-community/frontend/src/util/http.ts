@@ -178,3 +178,19 @@ export async function addBook(args: { data: FormData; token: string }) {
     return resData;
   }
 }
+
+export async function fetchBook(id: string) {
+  console.log(id);
+  const res = await fetch("http://localhost:3000/" + id);
+
+  if (res.status === 500 || res.status === 404) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+
+    return resData;
+  }
+}

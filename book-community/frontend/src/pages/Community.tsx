@@ -33,6 +33,7 @@ export default function CommunityPage() {
   const { data, isPending, isError, error } = useQuery<Data>({
     queryKey: ["books"],
     queryFn: fetchBooks,
+    enabled: false,
   });
   let content: JSX.Element | undefined;
 
