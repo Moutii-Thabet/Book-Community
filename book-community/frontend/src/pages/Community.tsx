@@ -33,7 +33,6 @@ export default function CommunityPage() {
   const { data, isPending, isError, error } = useQuery<Data>({
     queryKey: ["books"],
     queryFn: fetchBooks,
-    enabled: false,
   });
   let content: JSX.Element | undefined;
 
@@ -43,6 +42,7 @@ export default function CommunityPage() {
   }
 
   function handleClose() {
+    detailsRef.current?.close();
     setBookId("");
   }
 
@@ -80,7 +80,12 @@ export default function CommunityPage() {
 
   return (
     <>
-      <DetailsModal bookid={bookid} ref={detailsRef} onClose={handleClose} />
+      <DetailsModal
+        handleClose={handleClose}
+        bookid={bookid}
+        ref={detailsRef}
+        onClose={handleClose}
+      />
       <Main>{content}</Main>
     </>
   );

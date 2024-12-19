@@ -180,8 +180,7 @@ export async function addBook(args: { data: FormData; token: string }) {
 }
 
 export async function fetchBook(id: string) {
-  console.log(id);
-  const res = await fetch("http://localhost:3000/" + id);
+  const res = await fetch("http://localhost:3000/book/" + id);
 
   if (res.status === 500 || res.status === 404) {
     const { message } = await res.json();

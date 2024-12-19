@@ -28,7 +28,6 @@ export async function getBooks(req, res, next) {
 
 export async function getBook(req, res, next) {
   const bookId = req.params.bookId;
-  console.log(bookId);
   try {
     const book = await Book.findById(bookId).populate("creator");
     if (!book) {

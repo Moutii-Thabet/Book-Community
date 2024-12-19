@@ -13,10 +13,11 @@ type DialogHandle = {
 type DetailsModalProps = {
   onClose: () => void;
   bookid: string;
+  handleClose: () => void;
 };
 
 export default forwardRef<DialogHandle, DetailsModalProps>(
-  function DetailsModal({ onClose, bookid }, ref) {
+  function DetailsModal({ onClose, bookid, handleClose }, ref) {
     const { data, isError, isPending, error } = useQuery({
       queryKey: ["event", bookid],
       queryFn: () => fetchBook(bookid),
@@ -43,14 +44,14 @@ export default forwardRef<DialogHandle, DetailsModalProps>(
     if (data) {
       content = (
         <div>
-          <BookDetailsCard book={data} />
+          <BookDetailsCard handleClose={handleClose} book={data.book} />
         </div>
       );
     }
 
     return (
       <Modal onClose={onClose} ref={ref}>
-        <div className="w-[40rem] h-[50rem]">{content}</div>
+        <div className="w-[50rem] h-[60rem]">{content}</div>
       </Modal>
     );
   }
