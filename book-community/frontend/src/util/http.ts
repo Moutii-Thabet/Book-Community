@@ -147,8 +147,6 @@ export async function fetchUserBooks(signal: AbortSignal, token: string) {
   }
   if (res.status === 200) {
     const resData = await res.json();
-    console.log(resData);
-
     return resData.books;
   }
 }
@@ -187,6 +185,61 @@ export async function fetchBook(id: string) {
     const error = { message };
     throw error;
   }
+  if (res.status === 200) {
+    const resData = await res.json();
+
+    return resData;
+  }
+}
+
+export async function editBook(args: {
+  id: string;
+  token: string;
+  data: FormData;
+}) {
+  const res = await fetch("http://localhost:3000/admin/book/" + args.id, {
+    method: "PATCH",
+    headers: {
+      Authorization: "Bearer " + args.token,
+    },
+    body: args.data,
+  });
+
+  if (res.status === 417) {
+    const error = await res.json();
+    throw error;
+  }
+  if (
+    res.status === 500 ||
+    res.status === 404 ||
+    res.status === 401 ||
+    res.status === 415
+  ) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+  if (res.status === 200) {
+    const resData = await res.json();
+
+    return resData;
+  }
+}
+
+export async function deleteBook(args: { bookId: string; token: string }) {
+  const res = await fetch("http://localhost:3000/admin/book/" + args.bookId, {
+    method: "DELETE",
+    headers: {
+      Authorization: "Bearer " + args.token,
+    },
+  });
+
+  if (res.status === 500 || res.status === 404 || res.status === 401) {
+    const { message } = await res.json();
+    const error = { message };
+    throw error;
+  }
+
   if (res.status === 200) {
     const resData = await res.json();
 

@@ -27,7 +27,7 @@ export default function BookCard({
   if (rating >= 0 && rating <= 3) {
     ratingColor = "text-red-700";
   }
-  if (rating > 4 && rating < 7) {
+  if (rating >= 4 && rating < 7) {
     ratingColor = "text-yellow-100";
   }
   if (rating >= 7 && rating < 11) {

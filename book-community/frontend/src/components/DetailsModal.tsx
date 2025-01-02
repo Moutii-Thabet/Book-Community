@@ -21,6 +21,7 @@ export default forwardRef<DialogHandle, DetailsModalProps>(
     const { data, isError, isPending, error } = useQuery({
       queryKey: ["event", bookid],
       queryFn: () => fetchBook(bookid),
+      enabled: bookid !== "",
     });
     let content;
 

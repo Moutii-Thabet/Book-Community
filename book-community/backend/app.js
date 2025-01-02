@@ -36,8 +36,6 @@ const fileFilter = (req, file, cb) => {
 
 app.use(bodyParser.json());
 app.use(multer({ storage, fileFilter }).single("image"));
-app.use("/images", express.static("images"));
-
 app.use(
   cors({
     origin: "*",
@@ -45,6 +43,7 @@ app.use(
     allowedHeaders: ["Authorization", "Content-Type"],
   })
 );
+app.use("/images", express.static("images"));
 
 app.use("/auth", authRoutes);
 app.use(communityRoutes);

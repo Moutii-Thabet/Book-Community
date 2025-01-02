@@ -77,7 +77,6 @@ export async function patchBook(req, res, next) {
       }
       throwError("Invalid Input", 417, errors.array());
     }
-    const patchedInput = req.query.patchedInput;
 
     const book = await Book.findById(req.params.bookId);
     if (!book) {
@@ -86,19 +85,23 @@ export async function patchBook(req, res, next) {
     if (book.creator.toString() !== req.userId) {
       throwError("Not authorized", 401);
     }
-    if (patchedInput === "image") {
-      if (req.file) {
-        //console.log(req.file);
-        await fs.unlink(book.imageUrl);
-        book.imageUrl = req.file.path;
-        await book.save();
-        return res.status(200).json({ message: "book updated successfully" });
-      }
-      throwError("Attached file is not an image", 415);
+
+    if (req.file) {
+      //console.log(req.file);
+      await fs.unlink(book.imageUrl);
+      book.imageUrl = req.file.path;
     }
-    const patchedInputValue = req.body.value;
-    book[patchedInput] = patchedInputValue;
+
+    const title = req.body.title;
+    const description = req.body.description;
+    const rating = +req.body.rating;
+
+    book.title = title;
+    book.description = description;
+    book.rating = rating;
+
     await book.save();
+    res.status(200).json({ message: "book updated successfully" });
   } catch (error) {
     if (!error.status) {
       error.status = 500;

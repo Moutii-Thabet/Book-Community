@@ -30,6 +30,7 @@ export default function Books({
   onAddBook,
   onGetDetails,
 }: BooksProps) {
+  const reversedBooks = [...books].slice().reverse();
   return (
     <div className="w-1/2 h-fit mx-auto pt-20">
       <ul
@@ -42,13 +43,13 @@ export default function Books({
           >
             <p className=" flex flex-col gap-4 w-fit mx-auto my-auto text-3xl font-bold">
               <span>Add Book</span> <br />
-              <span className="text-4xl rounded-full bg-orange-400 w-fit mx-auto p-6">
+              <span className="text-4xl  bg-orange-400 w-fit mx-auto px-5 pt-2 pb-3 rounded-full">
                 +
               </span>
             </p>
           </div>
         )}
-        {books.map((book) => {
+        {reversedBooks.map((book) => {
           return (
             <BookCard
               minimize={minimize}

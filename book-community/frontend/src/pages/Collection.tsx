@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Main from "../components/Main";
 import Books from "../components/Books";
 import { useLoaderData } from "react-router-dom";
@@ -29,6 +29,7 @@ type DialogHandle = {
 };
 
 export default function CollectionPage() {
+  const [bookId, setBookId] = useState<string>("");
   const modalRef = useRef<DialogHandle>(null);
   const token = useLoaderData() as string;
   const { data, isPending, isError, error } = useQuery<Data>({
@@ -41,8 +42,13 @@ export default function CollectionPage() {
   }
 
   function handleClose() {
-    console.log("closing modal...");
     modalRef.current?.close();
+    setBookId("");
+  }
+
+  function handleGetDetails(id: string) {
+    modalRef.current?.open();
+    setBookId(id);
   }
 
   let content;
@@ -64,7 +70,6 @@ export default function CollectionPage() {
   }
 
   if (data && data.length <= 0) {
-    console.log(data);
     content = (
       <div className="w-fit mx-auto">
         <p className="py-[20rem] w-fit mx-auto pr-6 text-3xl text-center">
@@ -76,13 +81,19 @@ export default function CollectionPage() {
   }
 
   if (data && data.length > 0) {
-    console.log(data);
-    content = <Books books={data} minimize={true} onAddBook={handleClick} />;
+    content = (
+      <Books
+        books={data}
+        minimize={true}
+        onAddBook={handleClick}
+        onGetDetails={handleGetDetails}
+      />
+    );
   }
 
   return (
     <>
-      <BookModal ref={modalRef} onClose={handleClose} />
+      <BookModal bookId={bookId} ref={modalRef} onClose={handleClose} />
       <Main>{content}</Main>
     </>
   );
