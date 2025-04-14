@@ -8,15 +8,13 @@ import toast, { Toaster } from "react-hot-toast";
 
 type CustomError = {
   message: string;
-  errorData:
-    | {
-        type: string;
-        value: string | undefined;
-        msg: string;
-        path: string;
-        location: string;
-      }[]
-    | null;
+  errorData: {
+    type: string;
+    value: string | undefined;
+    msg: string;
+    path: string;
+    location: string;
+  } | null;
 };
 
 export default function SignupPage() {
